@@ -14,6 +14,8 @@ include('common/utils.php');
         <input type="text" name="username" placeholder="Usuario">
         <input type="password" name="password" placeholder="Clave">
         <button>Ingresar</button>
+        <br>
+        <a href="registration.php">Resgistrar tienda</a>
     </form>
 </body>
 </html>

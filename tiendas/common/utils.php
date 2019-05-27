@@ -23,7 +23,7 @@ function getProducts($conn) {
 		$res = $conn->query($sql);
 
 		if ($conn->error) {
-			redirect('../home.php?error_message=Ocurrió un error: ' . $conn->error);
+			header('../home.php?error_message=Ocurrió un error: ' . $conn->error);
 		}
 
 		$products = [];
@@ -35,6 +35,46 @@ function getProducts($conn) {
 
 		return $products;
 }
+function getTiendas($conn) {
+	$user_id = $_SESSION['user']['id'];
+
+	$sql = "SELECT * FROM user WHERE id !='$user_id'";
+
+		$res = $conn->query($sql);
+
+		if ($conn->error) {
+			header('../home.php?error_message=Ocurrió un error: ' . $conn->error);
+		}
+
+		$tiendas = [];
+		if($res->num_rows > 0) {
+			while ($row = $res->fetch_assoc()) {
+				$tiendas[] = $row;
+			}
+		}
+
+		return $tiendas;
+}
+
+function getProductosOtrasTiendas($conn,$idOtraTienda) {
+
+	$sql = "SELECT * FROM product WHERE user ='$idOtraTienda'";
+
+		$res = $conn->query($sql);
+
+		if ($conn->error) {
+			header('../home.php?error_message=Ocurrió un error: ' . $conn->error);
+		}
+
+		$products2 = [];
+		if($res->num_rows > 0) {
+			while ($row = $res->fetch_assoc()) {
+				$products2[] = $row;
+			}
+		}
+
+		return $products2;
+}
 
 $public_pages = [
 	'/tiendas/index.php', 
@@ -44,11 +84,11 @@ $public_pages = [
 ];
 
 if ( !isset($_SESSION['user']) && !in_array( $_SERVER['SCRIPT_NAME'], $public_pages)) {
-	redirect($_SERVER["HTTP_HOST"] . '/tiendas/index.php');
+	header($_SERVER["HTTP_HOST"] . '/tiendas/index.php');
 } elseif( 
 	isset($_SESSION['user']) && (
 	$_SERVER['SCRIPT_NAME'] == '/tiendas/index.php' || 
 	$_SERVER['SCRIPT_NAME'] == '/tiendas/registration.php')) {
-	redirect($_SERVER["HTTP_HOST"] . '/tiendas/home.php');
+	header($_SERVER["HTTP_HOST"] . '/tiendas/home.php');
 }
 

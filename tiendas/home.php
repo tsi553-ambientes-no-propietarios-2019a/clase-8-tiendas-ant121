@@ -3,6 +3,7 @@ include('common/utils.php');
 //print_r($_SESSION['user']);
 
 $products = getProducts($conn);
+$tiendas = getTiendas($conn);
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +38,24 @@ $products = getProducts($conn);
 					<td><?php echo $p['type'] ?></td>
 					<td><?php echo $p['stock'] ?></td>
 					<td><?php echo $p['price'] ?></td>
+				</tr>
+			<?php } ?>
+		</tbody>
+	</table>
+	<h2>Otras tiendas</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Tienda</th>
+				<th>Accion</th>
+				
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($tiendas as $p) { ?>
+				<tr>
+					<td><?php echo $p['store'] ?></td>
+					<td><a href="articulos.php?id=<?php echo $p['id']?>&tienda=<?php echo $p['store']?>">Articulos</a></td>
 				</tr>
 			<?php } ?>
 		</tbody>
